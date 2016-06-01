@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+        <meta charset="utf-8" />
+       
+		<title>New Event(Step 3)</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script src="moment.js"></script>
+    <script src="moment-timezone.js"></script>
+
+</head>
+
+<body>
+        <script>
+                $(document).ready(function() {
+                        var max_fields = 5;
+                        var wrapper = $(".input_fields_wrap");
+                        var add_button  = $(".add_field_button");
+                        var x = 1;
+                        $(add_button).click(function(e){
+                                e.preventDefault();
+                                if(x < max_fields){
+                                        x++;
+                                        $(wrapper).append('<div class="fields"><div class="form-group col-sm-12"><label class="control-label col-sm-3" for="lName">Question:</label><div class="col-sm-4"><input class="form-control" type="text" /></div><a href="#" class="remove_field">Remove</a></div><div class="form-group col-sm-12"><label class="control-label col-sm-3" for="type">Question Type:</label><div class="col-sm-4"><select class="form-control" id="changeType-new"><option>text</option><option>textarea</option><option>radio button</option><option>select list</option></select></div></div><div class="form-group col-sm-12"><div id="options'+count+'"></div></div><div class="form-group col-sm-12"><label class="control-label col-sm-3" for="req">Required:</label><div class="radio col-sm-4"><label><input type="radio" name="option">YES</label><label><input type="radio" name="option">NO</label></div></div></div>');
+                                }
+                        });
+
+                        $(wrapper).on("click",".remove_field", function(e){
+                                e.preventDefault();
+                                $(this).parent('div').parent('div').remove();
+                                x--;
+                        });
+$('#changeType').change(function() {
+                                     alert("checking");
+                                var value = $("#changeType option:selected").val();
+                                $('#options').empty();
+                                if(value == "radio button" || value == "select list"){
+                                $('#options').append('<div class="options_wrap"><label class="control-label col-sm-3">Options:</label><div class="col-sm-6"><input class="form-control" type="text" name="opt[]"></div></div>');
+                                }
+                                if(value == "text" || value == "textarea"){
+                                        $('#options').empty();
+                                }
+                        });
+                    
+ 
+$(function(ready){
+$('#changeType-new').on('change',function() {                               
+                                var value = $("#changeType-new option:selected").val();                                
+                                $('#options-new').empty();
+                                if(value == "radio button" || value == "select list"){
+                                $('#options-new').append('<div class="options_wrap"><label class="control-label col-sm-3">Options:</label><div class="col-sm-6"><input class="form-control" type="text" name="opt[]"></div></div>');
+                                }
+                                if(value == "text" || value == "textarea"){
+                                        $('#options-new').empty();
+                                }
+                        });
+                    });
+                });
+        </script>
+        <div class="menu">
+                <?php include '../main.php';?>
+        </div>
+        <div class="container">
+                <div class="Step3Summary">
+                        <h1>CREATING YOUR EVENT</h1>
+                        <p>We don't recommend that you add more boxes for your invitees to fill out. Forms can seem overwhelming if there is too much information required. However you may want to capture a guest's organization name or perhaps their food preference (ie. vegetarian).</p>
+                </div>
+                <div class="Customfields">
+                        <h2>Add your custom fields (optional)</h2>
+                        <form role="form" class="form-horizantal" action="">
+                                <div class="input_fields_wrap">
+                                        <div class="fields">
+                                               <div class="form-group col-sm-12">
+                                                        <label class="control-label col-sm-3" for="ques">Question:</label>
+                                                        <div class="col-sm-4">
+                                                                <input class="form-control" type="text" name="myText[]">
+                                                        </div>
+                                                        <button class="btn btn-default add_field_button">Add</button>
+                                                </div>
+                                                <div class="form-group col-sm-12">
+                                                        <label class="control-label col-sm-3" for="quesType">Question Type:</label>
+                                                        <div class="col-sm-4">
+                                                                <select class="form-control" id="changeType">
+                                                                        <option>text</option>
+                                                                        <option>textarea</option>
+                                                                        <option>radio button</option>
+                                                                        <option>select list</option>
+                                                                </select>
+                                                        </div>
+                                                </div>
+                                                <div class="form-group col-sm-12">
+                                                        <div id="options">
+                                                        </div>
+                                                </div>
+                                                <div class="form-group col-sm-12">
+                                                        <label class="control-label col-sm-3" for="req">Required:</label>
+                                                        <div class="radio col-sm-4">
+                                                                <label><input type="radio" name="option">YES</label>
+                                                                <label><input type="radio" name="option">NO</label>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </form>
+                </div>
+        </div>
+</body>
+</html>

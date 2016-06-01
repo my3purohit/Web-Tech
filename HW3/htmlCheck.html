@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company XML</title>
+    <script>
+        
+        if (window.XMLHttpRequest)
+          {// code for IE7+, Firefox, Chrome, Opera, Safari
+          xmlhttp=new XMLHttpRequest();
+          }
+        else
+          {// code for IE6, IE5
+          xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+          }
+        xmlhttp.open("GET","networklist.xml",false);
+        xmlhttp.send();
+        xmlDoc=xmlhttp.responseXML;
+          
+        document.write("<table border ='1'><tr><tbody>"); //Creates table to populate column headings
+        header = xmlDoc.getElementsByTagName("Header")[0]; //Gets the header tag 
+        
+        for (var i=0;i< header.childNodes.length; i++)
+        {
+        if(header.childNodes[i].nodeType ==1 )
+        {
+            heading = header.childNodes[i].firstChild.nodeValue; //gets the node values of the child nodes i.e, value of Owner, network etc., 
+            document.write("<th>"+heading+"</th>");
+        }
+        }
+        document.write("</tr>");
+        
+         row = xmlDoc.getElementsByTagName("Row")[0];
+         
+       // elements = row.childNodes[0];
+        /*
+        for(i=0;i<row.length;i++) //do for all planes
+           {  
+               header=row.item(i).childNodes; //get properties of a plane
+               document.write("<tr>");      //start a new row of the output table
+               for(j=0;j<header.length;j++)
+               {  
+                   if(header.item(j).nodeType==ELEMENT_NODE)
+			        {
+			
+                        if(header.item(j).nodeName=="Logo")
+				        {
+                    //handle images separately
+			document.write("<td><img src='"+header.item(j).firstChild.nodeValue+"' width='"+x+"' height='"+y+"'></td>"); 
+                        }
+		               else {
+
+                           document.write("<td>"+header.item(j).firstChild.nodeValue+"</td>");
+		
+                       }   
+                    }    
+               }
+               document.write("</tr>");  
+           }
+           document.write("</tbody>");
+           document.write("</table>");
+           document.write("</body></html>");  
+        
+        */
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        //document.write("<table border ='2'><tr><th>Network</th><th>Owner</th><th>Feeds</th><th>Notes</th><th>Homepage</th><th>Logo</th></tr>");
+        var x=xmlDoc.getElementsByTagName("Row");
+
+        for (i=0;i<x.length;i++)
+          { 
+              document.write("<tr><td>");
+              document.write(x[i].getElementsByTagName("Network")[0].childNodes[0].nodeValue);
+              document.write("</td><td>");
+              document.write(x[i].getElementsByTagName("Owner")[0].childNodes[0].nodeValue);
+              document.write("</td><td>");
+              document.write(x[i].getElementsByTagName("Feeds")[0].childNodes[0].nodeValue);
+              document.write("<ul><li>");
+              document.write(x[i].getElementsByTagName("Feed")[0].childNodes[0].nodeValue);
+              document.write("</li><li>");
+              document.write(x[i].getElementsByTagName("Feed")[1].childNodes[0].nodeValue);
+              document.write("</ul></li>");
+              document.write("</td><td>");
+              document.write(x[i].getElementsByTagName("Notes")[0].childNodes[0].nodeValue);
+              document.write("</td><td>");
+              document.write(x[i].getElementsByTagName("HomePage")[0].childNodes[0].nodeValue);
+              document.write("</td><td>");
+
+              var img = document.createElement("img");
+              img.src = x[i].getElementsByTagName("Logo")[0].childNodes[0].nodeValue;
+              document.write(img);
+              document.write("</td></tr>");
+          }
+        document.write("</table>");
+    </script>
+
+</head>
+<body>
+    <h4 > Enter the URL of the XML file</h4>
+    <form name = "introduction" method="post" id="inputXML">
+        <input type="text" name ="URL" align="middle" value="networklist.xml">
+        <br>
+        <input type="button" name="submit" value="Submit" align ="middle" onclick="viewXML(this.form)">
+    </form>
+</body>
+</html>

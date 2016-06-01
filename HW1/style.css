@@ -1,0 +1,23 @@
+
+
+td {
+	font-size: 20px;
+	padding : 50px;
+	color: 	#325C74;
+}
+
+table{
+	margin:auto;
+	
+}
+
+h1{
+	text-align: center;
+	font-family: cursive;
+}
+
+body{
+	
+	/*background-image: url("http://www.glandoresystems.com/themes/classic/images/tag.png");*/
+	background-color:#AEEEEE;
+}

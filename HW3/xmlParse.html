@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company XML</title>
+    <script>
+        
+        
+        function generateHTML(xmlDoc)
+        {
+            var sMyString = xmlhttp.responseText;
+            var oParser = new DOMParser();
+            var oDOM = oParser.parseFromString(sMyString, "text/xml");
+            // print the name of the root element or error message
+            if(oDOM.documentElement.nodeName == "parsererror")
+            {
+                alert("Error while parsing: Incorrect XML format. A closing tag may be missing");
+                return -1;
+            }
+            else{
+           html_text= "<table border ='1'><tr><tbody>"; //Creates table to populate column headings
+            header = xmlDoc.getElementsByTagName("Header");
+            headerList = header.item(0).childNodes;
+            //Gets the header tag 
+
+            for (var i=0;i< headerList.length; i++)
+            {
+                if(headerList.item(i).nodeType ==1 )
+                {
+                    heading=headerList.item(i).firstChild.nodeValue;//Prints all child elements of header tag as the table headings
+                    html_text+="<th>"+heading+"</th>";
+                }
+                }
+            html_text+="</tr>";
+            
+                row = xmlDoc.getElementsByTagName("Row"); //gets all the row element
+            if (row.length > 0)
+            {
+            for(i=0;i<row.length;i++) //do for all planes
+               {  
+
+                   rowList = row.item(i).childNodes; //retrieves all the child elemnts of row
+                   html_text+="<tr>";     //start a new row of the output table
+                   for(j=0;j<rowList.length;j++)
+                   {  
+
+                       if(rowList.item(j).nodeType==1)
+                        {
+                            if(rowList.item(j).nodeName=="Feeds") //get all sub elements of feed
+                        { 
+                            html_text+="<ul><td>";
+
+                               for(k=0;k<rowList.item(j).childNodes.length;k++) //output all elements of feed in on unordered list
+                                {
+                                    if(rowList.item(j).childNodes[k].nodeType == 1)
+                                    {
+                                     
+                                          html_text+="<li>"+rowList.item(j).childNodes[k].firstChild.nodeValue+"</li>";//print all child element values
+                                }
+                                    
+                            }
+                            html_text+="</td></ul>";
+                        }
+                        
+                       
+                   
+                         else if(rowList.item(j).nodeName=="Logo") //if the row contains an image
+                            {//handle images separately
+                                if((rowList.item(j).firstChild)!=null)
+                                {
+                                    html_text+="<td><img src='"+rowList.item(j).firstChild.nodeValue+"'</td>"; 
+                            }
+                                else{
+                                    html_text+="<td>"+" " +"</td>"; 
+                                }
+                            }
+                          else if(rowList.item(j).nodeName=="HomePage") //if the row contains a hyperlinkl
+                          {
+                              if((rowList.item(j).firstChild)!=null)
+                                {
+                              text=rowList.item(j).firstChild.nodeValue;
+                              //text.link(rowList.item(j).firstChild.nodeValue);
+                              html_text+="<td><a href='"+rowList.item(j).firstChild.nodeValue+"'>"+rowList.item(j).firstChild.nodeValue+"</a></td>";
+                                }
+                              else
+                              {
+                                html_text+="<td>"+" " +"</td>";
+                              }
+                          }
+
+
+                            else
+                              {
+                                  if((rowList.item(j).firstChild) == null)
+                                  html_text+="<td>"+" "+"</td>"
+                                  else
+                                  html_text+="<td>"+rowList.item(j).firstChild.nodeValue+"</td>";       
+                                } 
+                        }   
+                   }
+                                html_text+="</tr>"; 
+               }
+                               html_text+="</tbody>";
+                               html_text+="</table>";
+                                html_text+="<noscript>";
+                               html_text+="</bo"+"dy>";
+                               html_text+="</html>";
+                               
+                               //document.write(html_text);
+            }
+            else {
+                alert("Parse error: No entries found for companies");
+                return -1;
+            }
+            }
+                return 0;
+            }
+            
+            function viewXML(myForm)
+                {   
+                  
+                  var URL = myForm.URL.value;
+                  function loadXML(url) 
+                    {
+                      if (window.XMLHttpRequest)
+                  {// code for IE7+, Firefox, Chrome, Opera, Safari
+                       xmlhttp=new XMLHttpRequest();   
+                  }
+                 else {// code for IE6, IE5
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");  
+                 }
+                        try{
+
+                          xmlhttp.open("GET",url,false);
+                          xmlhttp.send();
+                          xmlDoc=xmlhttp.responseXML;
+                            if(xmlDoc == null)
+                            {
+                                alert("XML File does not exist. Please enter a valid XML file");
+                                return;
+                        }
+                        }
+                        catch(e)
+                        {
+                            alert("Invalid XML:"+e.message);
+                        }
+                    
+                       return xmlDoc; 
+                    }
+                    
+                  xmlDoc = loadXML(URL);
+                  
+                
+                 if (window.ActiveXObject) //if IE, simply execute script (due to async prop).
+                 {  
+                         if (xmlDoc.parseError.errorCode != 0) 
+                         {
+                        var myErr = xmlDoc.parseError;
+                        generateError(xmlDoc);
+                        hWin = window.open("", "Error", "height=300,width=340");
+                        hWin.document.write(html_text);
+                      } 
+                          else 
+                         { 
+                             if(xmlDoc != null)
+                             {
+                                 var result =generateHTML(xmlDoc);
+                                 if(result != -1){
+                                hWin = window.open("", "Assignment4", "height=500,width=800,scrollbars=1");
+                                hWin.document.write(html_text); 
+                                 }
+                             }
+                         }
+                     } 
+                else //else if FF, execute script once XML object has loaded
+                 {  
+                     if(xmlDoc != null)
+                     {
+                         var result = generateHTML(xmlDoc);
+                         if(result != -1)
+                         {
+                        hWin = window.open("", "Assignment4", "height=500,width=800,scrollbars=1");
+                        hWin.document.write(html_text);  
+                         }
+                 }
+                 }
+                 hWin.document.close();  
+}
+                
+        
+    
+        
+        
+    </script>
+
+</head>
+<body>
+    <h4 > Enter the URL of the XML file</h4>
+    <form name = "introduction" method="get" id="inputXML">
+        <input type="text" name ="URL" align="middle" value="networnklist.xml">
+        <br>
+        <input type="button" name="submit" value="Submit" align ="middle" onclick="viewXML(this.form)">
+    </form>
+<noscript>
+</body>
+</html>
+`

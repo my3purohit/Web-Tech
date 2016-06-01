@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Company XML</title>
+    <script>
+        function generateHTML(xmlDoc)
+        {
+            ELEMENT_NODE =1;
+            root=xmlDoc.documentElement;
+            html_text="<html><head><title>Extraction of XML</title></head><body>";
+            html_text+="<table border='2'>;
+            columnNames=xmlDoc.getElementsByName("Header");
+            document.write(columnNames);
+            html_text+="</table></body></html>";
+            
+        }
+      </script>  
+    </head>
+    <body>
+        <h4>Enter the company XML file</h4>
+        <form name ="introduction" method="POST" id="pageOne">
+            <input type="text" name ="URL" value="networklist.xml">
+            <br><br>
+            <input type="button" name="submit" value="Submit" onclick="viewXML(this.form)">
+        </form>
+    </body> 
+            
+</html>
+        
+        
+        

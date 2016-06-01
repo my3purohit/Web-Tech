@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Company XML</title>
+    <style="text/css"></style>
+    </head>
+    <body>
+        <h4>Enter the company XML file</h4>
+        <form name ="introduction" method="POST" id="pageOne">
+        <input type="text" name ="URL" value="networklist.xml">
+        </form>
+    </body>    
+        
+        
+        
